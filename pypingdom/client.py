@@ -24,6 +24,7 @@ class Client(object):
         self.gui = Gui(username, password)
         # cache checks
         self.checks = {}
+        self.maintenances = {}
         for item in self.api.send('get', "checks", params={"include_tags": True})['checks']:
             self.checks[item["name"]] = Check(self.api, json=item)
 
@@ -97,13 +98,13 @@ class Client(object):
                 continue
             res.append(mw)
         return res
-
+        
     def create_maintenance(self, obj):
-        window = Maintenance(self, obj=obj)
-        self.gui.login()
-        response = self.gui.send("post", "https://my.pingdom.com/ims/data/maintenance", window.to_json())
-        window._id = response.json()["checks_maintenance"]["id"]
-        return window
+         window = Maintenance(self.api, obj=obj)
+         value = window.to_json()
+         response = self.api.send(method = 'post', resource = 'maintenance', data = value)
+         window._id = response["maintenance"]["id"]
+         return window
 
     def delete_maintenance(self, window):
         self.gui.login()
