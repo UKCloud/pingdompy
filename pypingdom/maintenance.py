@@ -26,8 +26,8 @@ class Maintenance(object):
         return """
         pingdom.Maintenance <{0}>
          name: {1}
-         start: {2}
-         end: {3}
+         from: {2}
+         to: {3}
          checks: {4}
         """.format(self._id,
                    self.name,
@@ -41,13 +41,9 @@ class Maintenance(object):
             # "__csrf_magic": "",
             # "id": "",
             "description": self.name,
-            "from-date": "{0}.{1}.{2}.".format(self.start.year, self.start.month, self.start.day),
-            "from-time": "{0}:{1}".format(self.start.hour, self.start.minute),
-            "to-date": "{0}.{1}.{2}.".format(self.stop.year, self.stop.month, self.stop.day),
-            "to-time": "{0}:{1}".format(self.stop.hour, self.stop.minute),
-            "start": int(time.mktime(self.start.timetuple())),
-            "end": int(time.mktime(self.stop.timetuple())),
-            "checks": "[{0}]".format(",".join(check_ids))
+            "from": int(time.mktime(self.start.timetuple())),
+            "to": int(time.mktime(self.stop.timetuple())),
+            "uptimeids": "{0}".format(",".join(check_ids))
         }
         return data
 
