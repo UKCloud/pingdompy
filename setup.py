@@ -13,8 +13,8 @@ with open(os.path.join(BASEDIR, 'README.rst'), 'r') as f:
     README = f.read()
 
 
-setup(name='pypingdom',
-      version='0.2.2',
+setup(name='pingdompy',
+      version='0.1.1',
       description='Client for Pingdom Services',
       long_description=README,
       author='Paolo Sechi',
@@ -23,7 +23,7 @@ setup(name='pypingdom',
       setup_requires=['pytest-runner'],
       tests_require=['pytest>=3.0.7', 'requests-mock>=1.3.0'],
       url='https://github.com/sekipaolo/pypingdom',
-      packages=['pypingdom'],
+      packages=['pingdompy'],
       license='Apache v2.0',
       platforms='Posix; MacOS X; Windows',
       zip_safe=True,

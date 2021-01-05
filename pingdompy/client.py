@@ -2,13 +2,12 @@
 from __future__ import absolute_import
 
 from .api import Api
-from .gui import Gui
 from .check import Check
 from .maintenance import Maintenance
 
 
 class Client(object):
-    """Interact with API and GUI."""
+    """Interact with API."""
 
     def __init__(self, apikey, api_version='3.1'):
        
@@ -74,36 +73,7 @@ class Client(object):
     #     self.api.send(method='put', resource='checks', resource_id=check._id, data=data)
     #     check.from_json(self.api.send('get', "checks", check._id)['check'])
     #     return check
-
-#     def get_maintenances(self, filters=None):
-#         """Return a list of mainenance windows."""
-#         if filters is None:
-#             filters = {}
-#         res = []
-#         for mw in (Maintenance(self, json=x) for x in self.api.send('get', 'maintenance')['maintenance']):
-#             if "checks" in filters:
-#                 if filters['checks'] != False:
-#                     wanted_ids = [check._id for check in filters['checks']]
-#                     got_ids = [x._id for x in mw.checks]
-#                     if len(set(wanted_ids).intersection(set(got_ids))) == 0:
-#                         continue                    
-
-# #### needs check
-#             if "uptime_ids" in filters:
-#                     wanted_ids = filters['uptime_ids'].split(",")
-#                     got_ids = [x._id for x in mw.checks]
-#                     if len(set(wanted_ids).intersection(set(got_ids))) == 0:
-#                         continue   
-
-#             if "names" in filters and mw.description not in filters['names']:
-#                 continue
-#             if "after" in filters and filters["after"] >= mw.start:
-#                 continue
-#             if "before" in filters and filters["before"] <= mw.stop:
-#                 continue
-#             res.append(mw)
-#         return res
-        
+     
     def get_maintenance(self, window_id):
         value = str(window_id)
         response = self.api.send(method = 'get', resource = 'maintenance', resource_id = value)
@@ -115,10 +85,6 @@ class Client(object):
          response = self.api.send(method = 'post', resource = 'maintenance', data = value)
          window._id = response["maintenance"]["id"]
          return window
-
-    # def delete_maintenance(self, window):
-    #     self.gui.login()
-    #     self.gui.send("delete", "https://my.pingdom.com/ims/data/maintenance", params={"id": window._id})
 
     # def servertime(self):
     #     return self.api.send(method='get', resource='servertime')['servertime']
