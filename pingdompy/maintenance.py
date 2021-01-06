@@ -22,21 +22,28 @@ class Maintenance(object):
             if check:
                 checks.append(check.name)
             else:
-                checks.append("<deleted check>")
+                checks.append("Check deleted or not provided")
         return """
         pingdom.Maintenance <{0}>
          name: {1}
          from: {2}
          to: {3}
          checks: {4}
+         uptime_ids: {5}
         """.format(self._id,
                    self.name,
                    self.start,
                    self.stop,
-                   ", ".join(checks))
+                   ", ".join(checks),
+                   self.uptime_ids)
 
     def to_json(self):
-        check_ids = [str(check._id) for check in self.checks if check]
+
+        if self.checks == False:
+            check_ids = [str(self.uptime_ids)]  
+        else:
+            check_ids = [str(check._id) for check in self.checks if check]
+
         data = {
             # "__csrf_magic": "",
             # "id": "",
@@ -59,3 +66,4 @@ class Maintenance(object):
         self.start = obj['start']
         self.stop = obj['stop']
         self.checks = obj['checks']
+        self.uptime_ids = obj['uptime_ids']

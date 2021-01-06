@@ -25,16 +25,10 @@ class ApiError(Exception):
 
 class Api(object):
 
-    def __init__(self, username, password, apikey, email=False, apiversion="2.0"):
+    def __init__(self, apikey, apiversion="3.1"):
         self.base_url = "https://api.pingdom.com/api/" + apiversion + "/"
-        if version.parse(apiversion) < version.parse('3.0'):
-            self.auth = HTTPBasicAuth(username, password)
-            self.headers = {'App-Key': apikey}
-            if email:
-                self.headers['Account-Email'] = email
-        else:
-            self.headers = {'Authorization': 'Bearer ' + apikey}
-            self.auth = None
+        self.headers = {'Authorization': 'Bearer ' + apikey}
+        self.auth = None
 
     def send(self, method, resource, resource_id=None, data=None, params=None):
         if data is None:

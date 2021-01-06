@@ -1,17 +1,6 @@
-Pypingdom
+pingdompy
 =========
 
-.. image:: https://img.shields.io/pypi/v/pypingdom.svg
-    :target: https://pypi.python.org/pypi/pypingdom
-
-.. image:: https://img.shields.io/pypi/l/pypingdom.svg
-    :target: https://pypi.python.org/pypi/pypingdom
-
-.. image:: https://img.shields.io/pypi/pyversions/pypingdom.svg
-    :target: https://pypi.python.org/pypi/pypingdom
-
-.. image:: https://travis-ci.org/sekipaolo/pypingdom.svg?branch=master
-    :target: https://travis-ci.org/sekipaolo/pypingdom
 
 Python library for interacting with Pingdom services (REST API and maintenance windows).
 
@@ -20,17 +9,9 @@ Features
 --------
 
 
-* Support for `Multi-User Authentication <https://www.pingdom.com/resources/api#multi-user+authentication>`_
 * Check management: create, delete, update, list
 * Maintenance windows: create, delete, list
 * Fetching outage summaries
-
-.. warning::
-
-    Since the Pingdom REST API don't support maintenance windows, we interact
-    with the Website for it. Therefore this feature is highly fragile and can
-    *break* at any moment due to frontend changes on the Pingdom website.
-
 
 Requirements
 ------------
@@ -45,24 +26,19 @@ Installation
 
 .. code-block:: python
 
-    pip install pypingdom
+    pip install pingdompy
 
 
 Usage
 -----
 
-The `client` object will allow you to interact both with the REST API and the
-GUI (for maintenance windows).
+The `client` object will allow you to interact with the API.
 
 .. code-block:: python
 
-    >>> import pypingdom
-    >>> client = pypingdom.Client(username="username@example.com",
-                            password="your_password",
-                            apikey="your_api_key",
-                            email="your_email")
+    >>> import pingdompy
+    >>> client = pingdompy.Client(apikey="your api key")
 
-the `email` parameter is required for `Multiuser Authentication <https://www.pingdom.com/resources/api#multi-user+authentication>`_.
 
 Checks
 ------
@@ -122,13 +98,13 @@ Create a check:
             "requestheaders": {
                 'XCustom': 'my header value'
             },
-            "tags": [{"name": "pypingdom-test"}, {"name": "custom-tag"}],
+            "tags": [{"name": "pingdompy-test"}, {"name": "custom-tag"}],
             "encryption": False
         }
     >>> client.create_check(check_definition)
 
 
-Refers to `this page <https://www.pingdom.com/resources/api#MethodCreate+New+Check>`_ for the list of options.
+Refers to `this page <https://docs.pingdom.com/api/#tag/Checks/paths/~1checks/post>`_ for the list of options.
 
 When you create or modify a check some related entity need to be referenced by id:
 
@@ -176,7 +152,10 @@ Create a 1 hour maintenance window for production websites:
     >>> start = datetime.datetime.now() + datetime.timedelta(minutes=10)
     >>> end = start + datetime.timedelta(hours=1)
 
-    >>> window = client.create_maintenance({"checks": checks, "name": "pypingdom test maintenance", "start": start, "stop": end})
+    >>> window = client.create_maintenance({"checks": checks, "name": maint_name, \
+         "start": start, "stop": end, "uptime_ids": arg_uptimeid})
+
+> Setting the "checks" to none will allow you pass in an uptime ID rather than a tag
 
 Delete future maintenance windows:
 
