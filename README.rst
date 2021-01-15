@@ -123,8 +123,7 @@ Update a check:
 
     >>> client.update_check(check, {"paused": True})
 
-this will return True if an effective change was sent to the API and False
-otherwise (useful for idempotent usage, like ansible modules)
+this will return the updated checks' details for verification and a message confirming the update occured
 
 Delete a check:
 
