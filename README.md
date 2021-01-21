@@ -11,7 +11,7 @@ Features
 
 * Check management: create, delete, update, list
 * Maintenance windows: create, delete, list
-* Fetching outage summaries
+
 
 Requirements
 ------------
@@ -24,8 +24,11 @@ Requirements
 Installation
 ------------
 
+The git repo will need to be cloned to your local system and installed using the following: 
+
 ```
-    pip install pingdompy
+    >>> git clone https://github.com/UKCloud/pingdompy.git
+    >>> pip3 install -e /path/to/clone/pingdompy
 ```
 
 Usage
