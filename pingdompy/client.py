@@ -29,11 +29,8 @@ class Client(object):
         return checks
 
     def create_check(self, obj):
-        check = Check(self.api, obj=obj)
-        data = check.to_json()
-        response = self.api.send(method='post', resource='checks', data=data)
-        check._id = int(response["check"]["id"])
-        return check
+        response = self.api.send(method='post', resource='checks', data=obj)['check']
+        return response
 
     # def delete_check(self, check):
     #     if not check._id:
