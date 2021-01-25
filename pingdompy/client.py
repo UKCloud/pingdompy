@@ -2,9 +2,6 @@
 from __future__ import absolute_import
 
 from .api import Api
-from .check import Check
-from .maintenance import Maintenance
-
 
 class Client(object):
     """Interact with API."""
@@ -63,8 +60,5 @@ class Client(object):
         return response
 
     def create_maintenance(self, obj):
-         window = Maintenance(self.api, obj=obj)
-         value = window.to_json()
-         response = self.api.send(method = 'post', resource = 'maintenance', data = value)
-         window._id = response["maintenance"]["id"]
-         return window
+         response = self.api.send(method = 'post', resource = 'maintenance', data = obj)['maintenance']
+         return response
