@@ -9,12 +9,12 @@ from setuptools import setup
 
 BASEDIR = os.path.dirname(__file__)
 
-with open(os.path.join(BASEDIR, 'README.rst'), 'r') as f:
+with open(os.path.join(BASEDIR, 'README.md'), 'r') as f:
     README = f.read()
 
 
 setup(name='pingdompy',
-      version='0.1.1',
+      version='0.2.0',
       description='Client for Pingdom Services',
       long_description=README,
       author='Paolo Sechi',
