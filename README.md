@@ -138,7 +138,7 @@ To bind an alerting policy use the field *alert_policy* (numeric id to set it or
     >>> client.update_check(check, {"paused": True})
 ```
 
-this will return the updated checks' details for verification and a message confirming the update occured
+By passing in the checks' id as "check" and a json formatted array of changes, you can update a check. This will return the updated checks' details for verification and a message confirming the update occured.
 
 
 **Delete a check: (not yet implemented)**
@@ -147,6 +147,8 @@ this will return the updated checks' details for verification and a message conf
     >>> client.delete_check(check)
 ```
 
+By passing in the check's id as "check", this will delete the specified check and return a message confirming it's deletion. Only supports a singular deletion at a time. **This cannot be undone**
+
 
 Maintenance windows
 -------------------
@@ -154,21 +156,29 @@ Maintenance windows
 **Create a 1 hour maintenance window for production websites:**
 
 ```
-    >>> start = datetime.datetime.now() + datetime.timedelta(minutes=10)
-    >>> end = start + datetime.timedelta(hours=1)
+    >>> start = datetime.datetime.now() + datetime.timedelta(minutes=int(start_time))
+    >>> end = start + datetime.timedelta(minutes=int(duration_time))
 
-    >>> window = client.create_maintenance({"checks": checks, "name": maint_name, \
-         "start": start, "stop": end, "uptime_ids": arg_uptimeid})
+    >>> window = client.create_maintenance({"name": maint_name, \
+        "start": start, "stop": end, "uptime_ids": uptime_ids})
 ```
 
-Setting the *checks* to *none* will allow you pass in an uptime ID rather than a tag
+This will create a maintenance window for the specified check id. Multiple id's may be specified using a comma delimited string. E.G: "123456,654321". The times are in minutes and the start time is required in the format of how many minutes until the maintenance will begin from current time.
+
+
+**List a maintenance window's information**
+
+```
+    client.get_maintenance(window_id)
+```
+
+This will list and return the details for the specified maintenance window id. Only supports a singular id at a time.
 
 
 **Delete future maintenance windows: (to be implemented)**
 
 ```
-    >>> windows = client.get_maintenances(filters={"checks": checks, \ 
-        "after": datetime.datetime.now()}):
-    >>> for m in maintenances:
-        client.delete_maintenance(m)
+    client.delete_maintenance(window_id)
 ```
+
+By passing in the maintenance window's id, this will delete the specified window and return a message confirming it's deletion. Only maintenance windows in the future are able to be deleted. Only supports a singular deletion at a time.

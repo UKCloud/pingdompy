@@ -29,10 +29,9 @@ class Client(object):
         response = self.api.send(method='post', resource='checks', data=obj)['check']
         return response
 
-    # def delete_check(self, check):
-    #     if not check._id:
-    #         raise Exception("CheckNotFound %s" % check.name)
-    #     self.api.send(method='delete', resource='checks', resource_id=check._id)
+    def delete_check(self, check):
+        response = self.api.send(method='delete', resource='checks', resource_id=check)
+        return response
 
     def update_check(self, check, changes):
         ## Caches current version of check
@@ -53,7 +52,9 @@ class Client(object):
         else:
             response = "No changes were specified!"
             return response
- 
+
+    #### Maintenance Section
+
     def get_maintenance(self, window_id):
         value = str(window_id)
         response = self.api.send(method = 'get', resource = 'maintenance', resource_id = value)
@@ -62,3 +63,8 @@ class Client(object):
     def create_maintenance(self, obj):
          response = self.api.send(method = 'post', resource = 'maintenance', data = obj)['maintenance']
          return response
+
+    def delete_maintenance(self, window_id):
+        value = str(window_id)
+        response = self.api.send(method = 'delete', resource = 'maintenance', resource_id = value)
+        return response
