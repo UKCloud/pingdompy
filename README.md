@@ -141,7 +141,7 @@ To bind an alerting policy use the field *alert_policy* (numeric id to set it or
 By passing in the checks' id as "check" and a json formatted array of changes, you can update a check. This will return the updated checks' details for verification and a message confirming the update occured.
 
 
-**Delete a check: (not yet implemented)**
+**Delete a check:**
 
 ```
     >>> client.delete_check(check)
@@ -175,7 +175,7 @@ This will create a maintenance window for the specified check id. Multiple id's 
 This will list and return the details for the specified maintenance window id. Only supports a singular id at a time.
 
 
-**Delete future maintenance windows: (to be implemented)**
+**Delete future maintenance windows:**
 
 ```
     client.delete_maintenance(window_id)
